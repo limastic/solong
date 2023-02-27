@@ -6,7 +6,7 @@
 #    By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 22:20:37 by nfaust            #+#    #+#              #
-#    Updated: 2023/02/23 20:10:24 by nfaust           ###   ########.fr        #
+#    Updated: 2023/02/27 18:23:58 by nfaust           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,10 @@ HEADER = libft/libft.h \
 
 SOURCES = src/so_long.c \
 		  src/parsing.c \
-		  src/utils.c
+		  src/utils.c \
+		  src/check_map_feasibility.c \
+		  src/get_map.c \
+		  src/get_reachable_map.c
 
 OBJ = $(SOURCES:.c=.o)
 

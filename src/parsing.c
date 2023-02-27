@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:28:24 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/24 00:21:41 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/02/27 17:34:48 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ static int	_check_wall_surroundment(char **map)
 static int	_check_file_rules(char **map)
 {
 	if (_check_shape_and_content(map) || _check_wall_surroundment(map))
+		return (1);
+	else if (check_map_feasibility(map))
 		return (1);
 	return (0);
 }
