@@ -6,55 +6,24 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 22:19:42 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/23 17:39:43 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/02/28 03:30:07 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/so_long.h"
 #define ESC_KEY 65307
-
-typedef struct s_data {
-	void	*img;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-}				t_data;
-
-typedef struct s_mlx {
-	void	*mlx;
-	void	*win;
-	int		*should_stop;
-}				t_mlx;
-
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
-
-int	close_on_esc(int keycode, t_mlx *mlx)
-{
-	printf("esc ? %i\n", keycode);
-	if (keycode == ESC_KEY)
-	{
-		printf("Touche 'esc' pressée\n");
-		*(mlx->should_stop) = 1;
-	}
-	return (0);
-}
-
-int	close_on_cross(t_mlx *mlx)
-{
-	*(mlx->should_stop) = 1;
-	return (0);
-}
+#define W_KEY 119
+#define S_KEY 115
+#define A_KEY 97
+#define D_KEY 100
+#define UP_KEY 65362
+#define DOWN_KEY 65364
+#define LEFT_KEY 65361
+#define RIGHT_KEY 65363
 
 int	close_and_free(t_mlx *mlx)
 {
-	if (*(mlx->should_stop))
+	if (mlx->should_stop)
 	{
 		mlx_destroy_window(mlx->mlx, mlx->win);
 		mlx_loop_end(mlx->mlx);
@@ -64,43 +33,137 @@ int	close_and_free(t_mlx *mlx)
 	return (0);
 }
 
-void	*create_background(t_mlx *mlx, char *relative_path)
+void	*get_img(char c, t_mlx *mlx)
 {
 	void	*img;
+	char	*relative_path;
 	int		width;
 	int		height;
 
-	width = 1000;
-	width = 800;
+	if (c == '1')
+		relative_path = ft_strdup("./assets/sprites/objects/objects.xpm");
+	else if (c == '0')
+		relative_path = ft_strdup("./assets/sprites/tilesets/grass.xpm");
+	else if (c == 'E')
+		relative_path = ft_strdup("./assets/sprites/objects/door.xpm");
+	else if (c == 'P')
+		relative_path = ft_strdup("./assets/sprites/characters/player.xpm");
+	else
+		relative_path = ft_strdup("assets/sprites/objects/collectable.xpm");
 	img = mlx_xpm_file_to_image(mlx->mlx, relative_path, &width, &height);
-	if (!img)
-	{
-		*(mlx->should_stop) = 1;
-		printf("so_long: failed to read img in '%s'\n", relative_path);
-		close_and_free(mlx);
-	}
 	return (img);
 }
 
-int	so_long(void)
+static void	render_tile(t_mlx *mlx, char c, int i, int j)
+{
+	char	*relative_path;
+	void	*img;
+
+	img = get_img(c, mlx);
+	if (!img)
+	{
+		mlx->should_stop = 1;
+		ft_printf("Error\nfailed to load image : '%s'\n", relative_path);
+		if (relative_path)
+			free(relative_path);
+		close_and_free(mlx);
+	}
+	free(relative_path);
+	mlx_put_image_to_window(mlx->mlx, mlx->win, img, j * 100, i * 100);
+	printf("rendered img in %i, %i\n", j * 100, i * 100);
+	mlx_destroy_image(mlx->mlx, img);
+}
+
+static void	render_big_map(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	sleep(10);
+	printf("pas normal\n");
+	return ;
+}
+
+static int	render_map(t_data *data)
+{
+	int	i;
+	int	j;
+
+	if (data->mlx->win_height < 1080 && data->mlx->win_widht < 1920)
+	{
+		i = 0;
+		while (data->map[i])
+		{
+			j = 0;
+			printf("ici %i, %i\n", j, i);
+			while (data->map[i][j])
+			{
+				render_tile(data->mlx, data->map[i][j], i, j);
+				j++;
+			}
+			printf("pas jusque la \n");
+			i++;
+		}
+	}
+	else
+		render_big_map(data);
+	return (0);
+}
+
+int	check_keys(int keycode, t_data *data)
+{
+	size_t	save_moove_count;
+
+	save_moove_count = data->moove_count;
+	printf("%i\n", keycode);
+	if (keycode == ESC_KEY)
+		data->mlx->should_stop = 1;
+	else if (keycode == UP_KEY || keycode == W_KEY)
+		moove_up(data);
+	else if (keycode == DOWN_KEY || keycode == S_KEY)
+		moove_down(data);
+	else if (keycode == LEFT_KEY || keycode == A_KEY)
+		moove_left(data);
+	else if (keycode == RIGHT_KEY || keycode == D_KEY)
+		moove_right(data);
+	if (save_moove_count != data->moove_count)
+		render_map(data);
+	return (0);
+}
+
+int	close_on_cross(t_mlx *mlx)
+{
+	mlx->should_stop = 1;
+	return (0);
+}
+
+int	so_long(char **map)
 {
 	t_mlx	mlx;
-	// void	*img;
-	void	*img1;
+	t_data	data;
 
-	*(mlx.should_stop) = 0;
+	printf(";lsl\n");
+	mlx.should_stop = 0;
+	mlx.win_height = get_win_height(map);
+	mlx.win_widht = get_win_width(map);
 	mlx.mlx = mlx_init();
 	if (!(mlx.mlx))
 		return (1);
-	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "So long");
+	mlx.win = mlx_new_window(mlx.mlx, mlx.win_widht, mlx.win_height, "./so_long");
 	if (!(mlx.win))
 		return (1);
-	mlx_key_hook(mlx.win, &close_on_esc, &mlx);
+	data.map = map;
+	data.mlx = &mlx;
+	data.moove_count = 0;
+	data.player_x = get_player_x(map);
+	data.player_y = get_player_y(map);
+	printf("%li, %li\n", data.player_y, data.player_x);
+	data.collectable_count = 0;
+	data.collectable_total = count_collectable(map);
+	render_map(&data);
+	mlx_key_hook(mlx.win, &check_keys, &data);
 	mlx_hook(mlx.win, 17, 0, &close_on_cross, &mlx);
-	img1 = create_background(&mlx, "./assets/sprites/tilesets/grass.xpm");
-	mlx_put_image_to_window(mlx.mlx, mlx.win, img1, 0, 0);
-	// img = create_background(&mlx, "./assets/sprites/tilesets/fences.xpm");
-	// mlx_put_image_to_window(mlx.mlx, mlx.win, img, 0, 0);
 	mlx_loop_hook(mlx.mlx, &close_and_free, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
@@ -108,7 +171,12 @@ int	so_long(void)
 
 int	main(int argc, char **argv)
 {
-	if (check_error(argc, argv))
+	char	**map;
+
+	map = check_error(argc, argv);
+	if (!map)
 		return (1);
+	so_long(map);
+	ft_free_twodimarr(map);
 	return (0);
 }

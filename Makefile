@@ -6,12 +6,12 @@
 #    By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 22:20:37 by nfaust            #+#    #+#              #
-#    Updated: 2023/02/27 18:23:58 by nfaust           ###   ########.fr        #
+#    Updated: 2023/02/28 03:32:29 by nfaust           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-FLAGS = -Wextra -Wall -Werror -fsanitize=address
+FLAGS = -Wextra -Wall -Werror -fsanitize=address -g3
 MLXFLAGS = -Lmlx_linux -Lusr/lib -lmlx -lXext -lX11 -lm -lz
 ARCHIVE = ar rc	
 REMOVE = rm -f
@@ -29,7 +29,11 @@ SOURCES = src/so_long.c \
 		  src/utils.c \
 		  src/check_map_feasibility.c \
 		  src/get_map.c \
-		  src/get_reachable_map.c
+		  src/get_reachable_map.c \
+		  src/exec_utils.c \
+		  src/mooves.c \
+		  src/game_over.c \
+		  src/get_centered_map.c
 
 OBJ = $(SOURCES:.c=.o)
 

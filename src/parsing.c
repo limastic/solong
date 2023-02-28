@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:28:24 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/27 17:34:48 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/02/27 22:13:58 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,20 @@ static int	_check_file_rules(char **map)
 	return (0);
 }
 
-int	check_error(int argc, char **argv)
+char	**check_error(int argc, char **argv)
 {
 	char	**map;
 
 	if (argc != 2)
-		return (ft_printf("Error\nwrong number of args\n"), 1);
+		return (ft_printf("Error\nwrong number of args\n"), NULL);
 	if (_check_path(argv[1]))
 		return (ft_printf("Error\nInvalid map path, \
 wrong access rights or is a directory: '%s'\n"
-				, argv[1]), 1);
+				, argv[1]), NULL);
 	map = get_map(argv[1]);
 	if (!map)
-		return (1);
+		return (NULL);
 	if (_check_file_rules(map))
-		return (ft_free_twodimarr(map), 1);
-	ft_free_twodimarr(map);
-	return (0);
+		return (ft_free_twodimarr(map), NULL);
+	return (map);
 }
