@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 01:15:09 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/28 02:14:18 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/01 03:47:15 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	moove_left(t_data *data)
 {
 	char	left_tile_value;
 
-	printf("%li, %li\n", data->player_y, data->player_x);
 	left_tile_value = data->map[data->player_y][data->player_x - 1];
 	if (left_tile_value == '1')
 		return ;
@@ -38,7 +37,6 @@ void	moove_right(t_data *data)
 {
 	char	right_tile_value;
 
-	printf("ici, %li, %li\n", data->player_y, data->player_x);
 	right_tile_value = data->map[data->player_y][data->player_x + 1];
 	if (right_tile_value == '1')
 		return ;

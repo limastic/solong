@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:29:34 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/28 01:41:52 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/01 03:36:01 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	moove_down(t_data *data);
 void	moove_up(t_data *data);
 void	moove_left(t_data *data);
 void	moove_right(t_data *data);
+char	**get_centered_map(t_data *data);
 void	game_over(t_data *data);
 
 #endif

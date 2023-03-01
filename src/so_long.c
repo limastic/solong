@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 22:19:42 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/28 03:30:07 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/01 04:38:44 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ int	close_and_free(t_mlx *mlx)
 	return (0);
 }
 
-void	*get_img(char c, t_mlx *mlx)
+void	*get_path(char c)
 {
-	void	*img;
 	char	*relative_path;
-	int		width;
-	int		height;
 
 	if (c == '1')
 		relative_path = ft_strdup("./assets/sprites/objects/objects.xpm");
@@ -50,16 +47,20 @@ void	*get_img(char c, t_mlx *mlx)
 		relative_path = ft_strdup("./assets/sprites/characters/player.xpm");
 	else
 		relative_path = ft_strdup("assets/sprites/objects/collectable.xpm");
-	img = mlx_xpm_file_to_image(mlx->mlx, relative_path, &width, &height);
-	return (img);
+	return (relative_path);
 }
 
 static void	render_tile(t_mlx *mlx, char c, int i, int j)
 {
 	char	*relative_path;
 	void	*img;
+	int		width;
+	int		height;
 
-	img = get_img(c, mlx);
+	relative_path = get_path(c);
+	if (!relative_path)
+		return ;
+	img = mlx_xpm_file_to_image(mlx->mlx, relative_path, &width, &height);
 	if (!img)
 	{
 		mlx->should_stop = 1;
@@ -70,19 +71,31 @@ static void	render_tile(t_mlx *mlx, char c, int i, int j)
 	}
 	free(relative_path);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, img, j * 100, i * 100);
-	printf("rendered img in %i, %i\n", j * 100, i * 100);
+	// printf("rendered img in %i, %i\n", j * 100, i * 100);
 	mlx_destroy_image(mlx->mlx, img);
 }
 
 static void	render_big_map(t_data *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	char	**centered_map;
 
+	centered_map = get_centered_map(data);
+	if (!centered_map)
+		return ;
 	i = 0;
-	sleep(10);
-	printf("pas normal\n");
-	return ;
+	while (centered_map[i])
+	{
+		j = 0;
+		while (centered_map[i][j])
+		{
+			render_tile(data->mlx, centered_map[i][j], i, j);
+			j++;
+		}
+		i++;
+	}
+	return (ft_free_twodimarr(centered_map));
 }
 
 static int	render_map(t_data *data)
@@ -90,19 +103,18 @@ static int	render_map(t_data *data)
 	int	i;
 	int	j;
 
-	if (data->mlx->win_height < 1080 && data->mlx->win_widht < 1920)
+	if (data->mlx->win_height < 1100 && data->mlx->win_widht < 1900)
 	{
+		printf("%i, %i\n", data->mlx->win_widht, data->mlx->win_height);
 		i = 0;
 		while (data->map[i])
 		{
 			j = 0;
-			printf("ici %i, %i\n", j, i);
 			while (data->map[i][j])
 			{
 				render_tile(data->mlx, data->map[i][j], i, j);
 				j++;
 			}
-			printf("pas jusque la \n");
 			i++;
 		}
 	}
@@ -116,7 +128,6 @@ int	check_keys(int keycode, t_data *data)
 	size_t	save_moove_count;
 
 	save_moove_count = data->moove_count;
-	printf("%i\n", keycode);
 	if (keycode == ESC_KEY)
 		data->mlx->should_stop = 1;
 	else if (keycode == UP_KEY || keycode == W_KEY)
@@ -143,7 +154,6 @@ int	so_long(char **map)
 	t_mlx	mlx;
 	t_data	data;
 
-	printf(";lsl\n");
 	mlx.should_stop = 0;
 	mlx.win_height = get_win_height(map);
 	mlx.win_widht = get_win_width(map);
@@ -158,7 +168,6 @@ int	so_long(char **map)
 	data.moove_count = 0;
 	data.player_x = get_player_x(map);
 	data.player_y = get_player_y(map);
-	printf("%li, %li\n", data.player_y, data.player_x);
 	data.collectable_count = 0;
 	data.collectable_total = count_collectable(map);
 	render_map(&data);
