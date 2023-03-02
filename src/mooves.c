@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 01:15:09 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/01 03:47:15 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/01 23:34:04 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	moove_left(t_data *data)
 		data->map[data->player_y][data->player_x - 1] = 'P';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
+		ft_printf("%i\n", data->moove_count);
 		data->player_x--;
 	}
 	else if (left_tile_value == 'E')
@@ -47,6 +48,7 @@ void	moove_right(t_data *data)
 		data->map[data->player_y][data->player_x + 1] = 'P';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
+		ft_printf("%i\n", data->moove_count);
 		data->player_x++;
 	}
 	else if (right_tile_value == 'E')
@@ -68,6 +70,7 @@ void	moove_up(t_data *data)
 		data->map[data->player_y - 1][data->player_x] = 'P';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
+		ft_printf("%i\n", data->moove_count);
 		data->player_y--;
 	}
 	else if (top_tile_value == 'E')
@@ -89,6 +92,7 @@ void	moove_down(t_data *data)
 		data->map[data->player_y + 1][data->player_x] = 'P';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
+		ft_printf("%i\n", data->moove_count);
 		data->player_y++;
 	}
 	else if (bottom_tile_value == 'E')

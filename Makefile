@@ -6,12 +6,12 @@
 #    By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 22:20:37 by nfaust            #+#    #+#              #
-#    Updated: 2023/02/28 03:32:29 by nfaust           ###   ########.fr        #
+#    Updated: 2023/03/02 10:50:58 by nfaust           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-FLAGS = -Wextra -Wall -Werror -fsanitize=address -g3
+FLAGS = -Wextra -Wall -Werror #-fsanitize=address -g3
 MLXFLAGS = -Lmlx_linux -Lusr/lib -lmlx -lXext -lX11 -lm -lz
 ARCHIVE = ar rc	
 REMOVE = rm -f

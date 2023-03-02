@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:13:55 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/28 03:43:04 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/02 03:04:17 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ static char	**alloc_reachable_map(char **map)
 	while (j < i)
 	{
 		reachable_map[j] = malloc(sizeof(char) * (line_len + 1));
-		if (!reachable_map[j++])
+		if (!reachable_map[j])
 			return (ft_free_twodimarr(reachable_map), NULL);
-		reachable_map[j - 1][line_len] = 0;
+		ft_memset(reachable_map[j], 1, line_len);
+		reachable_map[j++][line_len] = 0;
 	}
 	reachable_map[i] = NULL;
 	return (reachable_map);
@@ -42,7 +43,7 @@ static char	**alloc_reachable_map(char **map)
 
 static int	is_walkable(char c)
 {
-	if (c == '0' || c == 'E' || c == 'C')
+	if (c == '0' || c == 'C')
 		return (1);
 	return (0);
 }
@@ -52,7 +53,7 @@ static void	fill_reachable_map(char **map,
 {
 	if (reachable_map[y][x] != '-')
 		return ;
-	if (map[y][x] != 'P' && !is_walkable(map[y][x]))
+	if (map[y][x] != 'P' && map[y][x] != 'E' && !is_walkable(map[y][x]))
 	{
 		reachable_map[y][x] = '0';
 		return ;
