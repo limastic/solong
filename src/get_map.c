@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 17:28:24 by nfaust            #+#    #+#             */
-/*   Updated: 2023/02/27 21:23:20 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/04 15:03:09 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static size_t	_count_lines(char *file_path)
 	if (!nl_ended)
 		return (ft_printf("Error\nno newline at EOF\n"), close(file_fd), 0);
 	if (!line_count)
-		ft_printf("Error\nempty map\n");
+		return (ft_printf("Error\nempty map\n"), close(file_fd), 0);
 	return (close(file_fd), line_count);
 }
 

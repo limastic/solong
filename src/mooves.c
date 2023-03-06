@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 01:15:09 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/01 23:34:04 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/03 13:00:40 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,26 @@ void	moove_left(t_data *data)
 	char	left_tile_value;
 
 	left_tile_value = data->map[data->player_y][data->player_x - 1];
+	if (data->map[data->player_y][data->player_x] == 'e')
+		return ;
 	if (left_tile_value == '1')
 		return ;
-	if (left_tile_value == '0' || left_tile_value == 'C')
+	if (left_tile_value == '0' || left_tile_value == 'C' || (left_tile_value
+			== 'E' && data->collectable_count == data->collectable_total))
 	{
 		if (left_tile_value == 'C')
 			data->collectable_count += 1;
-		data->map[data->player_y][data->player_x - 1] = 'P';
+		if (left_tile_value != 'E')
+			data->map[data->player_y][data->player_x - 1] = 'P';
+		else
+			data->map[data->player_y][data->player_x - 1] = 'e';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
 		ft_printf("%i\n", data->moove_count);
 		data->player_x--;
-	}
-	else if (left_tile_value == 'E')
-		if (data->collectable_count == data->collectable_total)
+		if (left_tile_value == 'E')
 			game_over(data);
+	}
 }
 
 void	moove_right(t_data *data)
@@ -39,21 +44,26 @@ void	moove_right(t_data *data)
 	char	right_tile_value;
 
 	right_tile_value = data->map[data->player_y][data->player_x + 1];
+	if (data->map[data->player_y][data->player_x] == 'e')
+		return ;
 	if (right_tile_value == '1')
 		return ;
-	if (right_tile_value == '0' || right_tile_value == 'C')
+	if (right_tile_value == '0' || right_tile_value == 'C' || (right_tile_value
+			== 'E' && data->collectable_count == data->collectable_total))
 	{
 		if (right_tile_value == 'C')
 			data->collectable_count += 1;
-		data->map[data->player_y][data->player_x + 1] = 'P';
+		if (right_tile_value != 'E')
+			data->map[data->player_y][data->player_x + 1] = 'P';
+		else
+			data->map[data->player_y][data->player_x + 1] = 'e';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
 		ft_printf("%i\n", data->moove_count);
 		data->player_x++;
-	}
-	else if (right_tile_value == 'E')
-		if (data->collectable_count == data->collectable_total)
+		if (right_tile_value == 'E')
 			game_over(data);
+	}
 }
 
 void	moove_up(t_data *data)
@@ -61,41 +71,51 @@ void	moove_up(t_data *data)
 	char	top_tile_value;
 
 	top_tile_value = data->map[data->player_y - 1][data->player_x];
+	if (data->map[data->player_y][data->player_x] == 'e')
+		return ;
 	if (top_tile_value == '1')
 		return ;
-	if (top_tile_value == '0' || top_tile_value == 'C')
+	if (top_tile_value == '0' || top_tile_value == 'C' || (top_tile_value
+			== 'E' && data->collectable_count == data->collectable_total))
 	{
 		if (top_tile_value == 'C')
 			data->collectable_count += 1;
-		data->map[data->player_y - 1][data->player_x] = 'P';
+		if (top_tile_value != 'E')
+			data->map[data->player_y - 1][data->player_x] = 'P';
+		else
+			data->map[data->player_y - 1][data->player_x] = 'e';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
 		ft_printf("%i\n", data->moove_count);
 		data->player_y--;
-	}
-	else if (top_tile_value == 'E')
-		if (data->collectable_count == data->collectable_total)
+		if (top_tile_value == 'E')
 			game_over(data);
+	}
 }
 
 void	moove_down(t_data *data)
 {
-	char	bottom_tile_value;
+	char	bott_tile_value;
 
-	bottom_tile_value = data->map[data->player_y + 1][data->player_x];
-	if (bottom_tile_value == '1')
+	bott_tile_value = data->map[data->player_y + 1][data->player_x];
+	if (data->map[data->player_y][data->player_x] == 'e')
 		return ;
-	if (bottom_tile_value == '0' || bottom_tile_value == 'C')
+	if (bott_tile_value == '1')
+		return ;
+	if (bott_tile_value == '0' || bott_tile_value == 'C' || (bott_tile_value
+			== 'E' && data->collectable_count == data->collectable_total))
 	{
-		if (bottom_tile_value == 'C')
+		if (bott_tile_value == 'C')
 			data->collectable_count += 1;
-		data->map[data->player_y + 1][data->player_x] = 'P';
+		if (bott_tile_value != 'E')
+			data->map[data->player_y + 1][data->player_x] = 'P';
+		else
+			data->map[data->player_y + 1][data->player_x] = 'e';
 		data->map[data->player_y][data->player_x] = '0';
 		data->moove_count += 1;
 		ft_printf("%i\n", data->moove_count);
 		data->player_y++;
-	}
-	else if (bottom_tile_value == 'E')
-		if (data->collectable_count == data->collectable_total)
+		if (bott_tile_value == 'E')
 			game_over(data);
+	}
 }

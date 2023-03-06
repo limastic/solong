@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:29:34 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/02 10:51:09 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/04 14:36:50 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_mlx {
 	void	*win;
 	int		win_height;
 	int		win_widht;
-	int		should_stop;
 }				t_mlx;
 
 typedef struct s_data {
@@ -49,7 +48,6 @@ typedef struct s_data {
 	size_t	collectable_total;
 	size_t	collectable_count;
 	char	*player_url;
-	int		menu;
 }				t_data;
 
 char	**check_error(int argc, char **argv);
@@ -70,7 +68,7 @@ void	moove_left(t_data *data);
 void	moove_right(t_data *data);
 char	**get_centered_map(t_data *data);
 void	game_over(t_data *data);
-int		close_and_free(t_mlx *mlx);
-int		close_on_cross(t_mlx *mlx);
+// int		close_and_free(t_data *data);
+// int		close_on_cross(t_mlx *mlx);
 
 #endif
