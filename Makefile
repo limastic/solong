@@ -6,7 +6,7 @@
 #    By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 22:20:37 by nfaust            #+#    #+#              #
-#    Updated: 2023/03/07 12:00:54 by nfaust           ###   ########.fr        #
+#    Updated: 2023/03/07 12:09:53 by nfaust           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ PRINTFNAME = ft_printf/ft_printf.a
 MLXNAME = mlx_linux/libmlx_Linux.a
 
 HEADER = libft/libft.h \
-		 ft_printf/ft_printf.h
+		 ft_printf/ft_printf.h \
+		 header/so_long.h
 
 SOURCES = src/so_long.c \
 		  src/parsing.c \

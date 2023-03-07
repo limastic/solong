@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:29:34 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/07 11:59:35 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/07 12:06:55 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include "../libft/libft.h"
 # include "../ft_printf/ft_printf.h"
 # include "../mlx_linux/mlx.h"
-# include <stdio.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
@@ -29,7 +28,6 @@
 # define DOWN_KEY 65364
 # define LEFT_KEY 65361
 # define RIGHT_KEY 65363
-# define SPACE_KEY 32
 # define B_KEY 98
 
 typedef struct s_mlx {

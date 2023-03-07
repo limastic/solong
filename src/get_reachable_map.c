@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 18:13:55 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/04 15:05:05 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/07 15:37:59 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,9 @@ static void	fill_reachable_map(char **map,
 	if (reachable_map[y][x] != '-')
 		return ;
 	if (map[y][x] != 'P' && map[y][x] != 'E' && !is_walkable(map[y][x]))
-	{
-		reachable_map[y][x] = '0';
-		return ;
-	}
+		return (reachable_map[y][x] = '0', (void) 0);
+	else if (map[y][x] == 'E')
+		return (reachable_map[y][x] = '2', (void) 0);
 	else
 		reachable_map[y][x] = '1';
 	fill_reachable_map(map, reachable_map, x, y + 1);
