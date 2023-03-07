@@ -6,7 +6,7 @@
 /*   By: nfaust <nfaust@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 03:32:33 by nfaust            #+#    #+#             */
-/*   Updated: 2023/03/02 02:59:25 by nfaust           ###   ########.fr       */
+/*   Updated: 2023/03/07 11:55:48 by nfaust           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ char	**get_centered_map(t_data *data)
 	char		**centered_map;
 	size_t		i;
 	size_t		j;
-	size_t		curr_x;
 
 	start_coords = malloc(sizeof(t_coords));
 	if (!start_coords)
@@ -105,9 +104,9 @@ char	**get_centered_map(t_data *data)
 	while (centered_map[i])
 	{
 		j = 0;
-		curr_x = start_coords->x;
-		while (centered_map[i][j])
-			centered_map[i][j++] = data->map[start_coords->y][curr_x++];
+		while (centered_map[i][j++])
+			centered_map[i][j - 1] = data->map[start_coords->y]
+			[start_coords->x + j - 1];
 		start_coords->y++;
 		i++;
 	}
